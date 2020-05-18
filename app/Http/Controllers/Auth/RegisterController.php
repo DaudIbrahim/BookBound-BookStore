@@ -69,4 +69,17 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    /**
+     * ReferenceWeb - https://laraveldaily.com/9-things-you-can-customize-in-laravel-registration/
+     * The following methods override the default methods defined in the trait RegistersUsers.
+     *
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        return view('customer.pages.register');
+    }
 }
