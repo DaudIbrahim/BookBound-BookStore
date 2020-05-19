@@ -4,13 +4,13 @@
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-sm-3">
-                    @include('customer.partials.leftsidebar')
-                </div>
+                <div class="col-sm-1">{{-- positioning --}}</div>
 
                 <div class="col-sm-9 padding-right">
-                    @include('customer.partials.shop')
+                    @include('customer.partials.productdetails')
                 </div>
+
+                <div class="col-sm-2">{{-- positioning --}}</div>
             </div>
         </div>
     </section>

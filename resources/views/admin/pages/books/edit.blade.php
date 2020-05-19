@@ -10,6 +10,9 @@
 
       <div class="card">
          <div class="card-action">
+            <div class="alert alert-info">
+               <strong>Update Price & Quantity</strong> of {{ $book->title }}
+            </div>
             <a href="{{ url()->previous() }}">
                <span class="material-icons">arrow_back</span>
             </a>            
@@ -118,7 +121,7 @@
                         </div>
                         <div class="input-field col s5">
                            <input type="number" name="new_price" id="new_price" 
-                              min="100" max="9999" step="50" value="{{ $book->new_price }}" required>
+                              min="100" max="9999" step="50" value="{{ $book->newStock()->price }}" required>
                            <label for="new_price" class="active" style="font-size: 88%">Update Price</label>
                         </div>
                         <div class="input-field col s5">
@@ -135,7 +138,7 @@
                         </div>
                         <div class="input-field col s5">
                            <input type="number" name="used_price" id="used_price" 
-                              min="100" max="9999" step="50" value="{{ $book->used_price }}" required>
+                              min="100" max="9999" step="50" value="{{ $book->usedStock()->price }}" required>
                            <label for="used_price" class="active" style="font-size: 88%">Update Price</label>
                         </div>
                         <div class="input-field col s5">

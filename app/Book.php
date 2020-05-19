@@ -27,6 +27,25 @@ class Book extends Model
         return $this->belongsTo(Author::class);
     }
 
+    public function stock()
+    {
+        return $this->hasMany(Stock::class);
+    }
+    
+    public function newStock()
+    {
+        $newStock = $this->stock->where('is_used', false);
+        if ($newStock->count() !== 1) { throw new \ErrorException('More Than One: New-Stock-Records'); }
+        return $newStock->first();
+    }
+
+    public function usedStock()
+    {
+        $usedStock = $this->stock->where('is_used', true);
+        if ($usedStock->count() !== 1) { throw new \ErrorException('More Than One: Used-Stock-Records'); }
+        return $usedStock->first();
+    }
+
     public function getCategory()
     {
         return $this->subcategory->category;

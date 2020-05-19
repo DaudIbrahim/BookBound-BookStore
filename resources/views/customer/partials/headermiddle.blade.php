@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-4">
                 <div class="logo pull-left">
-                    <a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+                    <a href="index.html"><img src="{{ asset('assets/customer') }}/assets/images/home/logo.png" alt="" /></a>
                 </div>
                 <div class="btn-group pull-right">
                     <div class="btn-group">
@@ -36,7 +36,22 @@
                         <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
                         <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
                         <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                        <li><a href="{{ route('login') }}"><i class="fa fa-lock"></i> {{ __('Login') }}</a></li>
+                        
+                        @guest
+                            <li><a href="{{ route('register') }}"><i class="fa fa-lock"></i> {{ __('Register') }}</a></li>
+                            <li><a href="{{ route('login') }}"><i class="fa fa-lock"></i> {{ __('Login') }}</a></li>
+                        @endguest
+                        
+                        @auth
+                            <li>
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-sign-out fa-fw"></i> Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
+                        @endauth
                     </ul>
                 </div>
             </div>

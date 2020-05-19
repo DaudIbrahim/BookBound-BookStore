@@ -10,6 +10,7 @@ use App\Category;
 use App\SubCategory;
 use App\Author;
 use App\Book;
+use App\Stock;
 
 class AdminBookController extends Controller
 {
@@ -127,16 +128,31 @@ class AdminBookController extends Controller
         }
 
         if ($book === null) {
+
+            // Find/Create The Author.
             $author = Author::firstOrCreate(['title' => $google_book['author']]);
+
+            // Create The Book.
             $book = new Book($google_book);
             $book->subcategory_id = request()->input('subcategory');
             $book->author_id = $author->id;
-            $book->new_price = request()->input('new_price');
-            $book->new_quantity = request()->input('new_quantity');
-            $book->used_price = request()->input('used_price');
-            $book->used_quantity = request()->input('used_quantity');
+            $book->save();
+            
+            // Assign New Stock
+            $new_stock = new Stock();
+            $new_stock->is_used = false;
+            $new_stock->book_id = $book->id;
+            $new_stock->price = request()->input('new_price');
+            $new_stock->quantity = request()->input('new_quantity');
 
-            if ($book->save()) {
+            // Assign Used Stock
+            $used_stock = new Stock();
+            $used_stock->is_used = true;
+            $used_stock->book_id = $book->id;
+            $used_stock->price = request()->input('used_price');
+            $used_stock->quantity = request()->input('used_quantity');
+
+            if ($new_stock->save() && $used_stock->save()) {
                 session()->forget('google_book');
                 $message = 'Boook Added successfully.';
                 return redirect()->route('admin.books.show', ["book" => $book->id])->with('message', $message);
@@ -166,10 +182,7 @@ class AdminBookController extends Controller
     {
         $categories = Category::has('subcategories')->get();
         $book = Book::findOrFail($id);
-        $redirectFromCreate = session()->has('message') ? session()->get('message') : null;
-
-        
-        return view('admin.pages.books.edit', compact('categories', 'book', 'redirectFromCreate'));
+        return view('admin.pages.books.edit', compact('categories', 'book'));
     }
 
     /**
@@ -190,13 +203,20 @@ class AdminBookController extends Controller
             'used_quantity' => 'numeric|required|min:0|max:50',
         ]);
 
+        // Book Update.
         $book = Book::findOrFail($id);
         $book->subcategory_id = request()->input('subcategory');
-        $book->new_price = request()->input('new_price');
-        $book->new_quantity = $book->new_quantity + request()->input('new_quantity');
-        $book->used_price = request()->input('used_price');
-        $book->used_quantity = $book->used_quantity + request()->input('used_quantity');
 
+        // New Stock Update.
+        $book->newStock()->price = request()->input('new_price');
+        $book->newStock()->quantity = $book->newStock()->quantity + request()->input('new_quantity');
+        $book->newStock()->save();
+        
+        // Used Stock Update.
+        $book->usedStock()->price = request()->input('used_price');
+        $book->usedStock()->quantity = $book->usedStock()->quantity + request()->input('used_quantity');
+        $book->usedStock()->save();
+        
         if ($book->update()) {
             return redirect()->route('admin.books.show', ["book" => $book->id])->with('message', 'Update Successful!');
         }

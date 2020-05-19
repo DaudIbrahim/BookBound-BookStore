@@ -12,12 +12,6 @@
  */
 
 /**
- * Test Route for Development
- */
-Route::get('/test', 'TestController@index');
-Route::get('/test/api/{boolean?}', 'TestController@api');
-
-/**
  * Customized Auth Routes
  * Disabling options to reset and verify
  * ReferenceWeb - https://stackoverflow.com/a/29183435/7031530
@@ -29,13 +23,16 @@ Auth::routes([
 ]);
 
 /**
- * Routes list. Using all Controller Routes
+ * Guest Routes. (Routes for All).
  */
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/books', 'BookController@index')->name('books.index');
+Route::get('/books/{book}/details', 'BookController@details')->name('books.details');
+
 
 /**
- * administrator
+ * Admin Routes.
  */
 Route::group(['prefix' => 'administrator', "as" => "admin."], function () {
     Route::get('/', 'AdminHomeController@index');
@@ -75,7 +72,11 @@ Route::group(['prefix' => 'administrator', "as" => "admin."], function () {
     Route::get('/areas/{area}', 'AdminAreaController@show')->name('areas.show');
     Route::get('/areas/{area}/edit', 'AdminAreaController@edit')->name('areas.edit');
     Route::put('/areas/{area}', 'AdminAreaController@update')->name('areas.update');
-    
 
-    
 });
+
+/**
+ * Test Routes for Development Purpose
+ */
+Route::get('/test', 'TestController@index');
+Route::get('/test/api/{boolean?}', 'TestController@api');

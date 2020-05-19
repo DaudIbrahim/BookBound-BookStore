@@ -120,12 +120,12 @@
                         </div>
                         <div class="input-field col s5">
                            <input type="number" name="new_price" id="new_price" 
-                              min="100" max="9999" step="50" value="{{ $book->new_price}}" readonly>
+                              min="100" max="9999" step="50" value="{{ $book->newStock()->price }}" readonly>
                            <label for="new_price" class="active" style="font-size: 88%">Price</label>
                         </div>
                         <div class="input-field col s5">
                            <input type="number" name="new_quantity" id="new_quantity" 
-                              min="10" max="50" step="1" value="{{ $book->new_quantity}}" readonly>
+                              min="10" max="50" step="1" value="{{ $book->newStock()->quantity }}" readonly>
                            <label for="new_quantity" class="active" style="font-size: 88%">Quantity</label>
                         </div>
 
@@ -137,18 +137,18 @@
                         </div>
                         <div class="input-field col s5">
                            <input type="number" name="used_price" id="used_price" 
-                              min="100" max="9999" step="50" value="{{ $book->used_price}}" readonly>
+                              min="100" max="9999" step="50" value="{{ $book->usedStock()->price }}" readonly>
                            <label for="used_price" class="active" style="font-size: 88%">Price</label>
                         </div>
                         <div class="input-field col s5">
                            <input type="number" name="used_quantity" id="used_quantity" 
-                              min="10" max="50" step="1" value="{{ $book->used_quantity}}" readonly>
+                              min="10" max="50" step="1" value="{{ $book->usedStock()->quantity }}" readonly>
                            <label for="used_quantity" class="active" style="font-size: 88%">Quantity</label>
                         </div>
 
                         {{-- E. Submit --}}
                         <div class="input-field col s12">
-                           <a href="{{ route('admin.books.edit', ["book" => $book->id]) }}" class="btn btn-primary btn-block">
+                           <a href="{{ route('admin.books.edit', ["book" => $book->id]) }}" class="btn btn-block">
                               Edit Price/Quantity
                            </a>
                         </div>
@@ -163,7 +163,6 @@
       </div>
    </div>
 <div>
-
 
 {{-- Errors For My Concerns --}}
 <div class="row">

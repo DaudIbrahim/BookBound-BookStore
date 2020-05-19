@@ -149,8 +149,16 @@ class TestController extends Controller
         /**
          * SLug helper by Laravel Framework
          */
-        $slug = Str::slug('Laravel 5 Framework', '-');
-        return $slug;
+        // $slug = Str::slug('Laravel 5 Framework', '-');
+        // return $slug;
+
+
+        /**
+         * Rollbacking DB to fix mistake
+         * Now - Books has New & Used Stocks
+         */
+        $book = Book::findOrFail('1');
+        dd($book->usedStock());
 
     }
 

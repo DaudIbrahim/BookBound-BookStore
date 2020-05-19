@@ -30,12 +30,6 @@ class CreateBooksTable extends Migration
             $table->string('page_count', 20);
             $table->string('lang', 20);
             $table->string('publisher', 255);
-
-            // Price & Quantity
-            $table->unsignedInteger('new_price');
-            $table->unsignedInteger('new_quantity');
-            $table->unsignedInteger('used_price');
-            $table->unsignedInteger('used_quantity');
             $table->timestamps();
 
             // FK References

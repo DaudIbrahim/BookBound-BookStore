@@ -10,7 +10,7 @@
       <!--   Basic Table  -->
       <div class="card">
           <div class="card-action">
-              {{-- Basic Table --}}
+              Total Books: {{ $books->count() }}
           </div>
           <div class="card-content">
               <div class="table-responsive">
