@@ -19,6 +19,9 @@ In BookBound throwing Exception when a Book has more than one new or used stock.
 
 **[Sass Guidelines for Future Projects](https://sass-guidelin.es/#architecture)**
 
+**[How to handle money and currency in web applications](https://culttt.com/2014/05/28/handle-money-currency-web-applications/)**
+Keep discounts separate
+
 
 <!-- 
 	php artisan make:model Coupon --migration

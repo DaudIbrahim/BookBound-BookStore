@@ -35,7 +35,12 @@
             </div>
             <div class="col-sm-3">
                 <div class="search_box pull-right">
-                    <input type="text" placeholder="Search"/>
+                    {{-- <input type="text" placeholder="Search"/> --}}
+                    @if (route::is('cart.index'))
+                        <button type="button" class="btn btn-outline-primary" onclick="extraScroll('do_action')">
+                            <i class="fa fa-credit-card" aria-hidden="true"></i> Checkout
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>

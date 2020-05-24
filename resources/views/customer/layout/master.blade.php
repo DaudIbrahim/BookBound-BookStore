@@ -5,7 +5,7 @@
 </head>
 <body>
     <header id="header"><!--header-->
-        @include('customer.partials.headertop')
+        {{-- @include('customer.partials.headertop') --}}
         @include('customer.partials.headermiddle')
         @include('customer.partials.headerbottom')
     </header>

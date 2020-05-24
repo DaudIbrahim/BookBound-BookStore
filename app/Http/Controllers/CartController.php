@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Stock;
+use App\Coupon;
+
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
@@ -15,6 +17,11 @@ class CartController extends Controller
      */
     public function index()
     {
+        // Remove Coupon If Cart Empty
+        if (Cart::count() == 0) { 
+            session()->has('coupon') ?  session()->forget('coupon') : '';
+        }
+        
         return view('customer.pages.cart');
     }
 

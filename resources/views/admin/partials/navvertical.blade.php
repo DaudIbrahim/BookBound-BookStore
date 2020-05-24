@@ -88,7 +88,7 @@
          {{-- Coupons --}}
          <li>
             <a href="" class="waves-effect waves-dark">
-               <i class="fa fa-sitemap"></i>Coupons<span class="fa arrow"></span>
+               <i class="fa fa-gift"></i>Coupons<span class="fa arrow"></span>
             </a>
             <ul class="nav nav-second-level {{ route::is('admin.coupons.*') ? "collapse in" : "" }}">
                <li>

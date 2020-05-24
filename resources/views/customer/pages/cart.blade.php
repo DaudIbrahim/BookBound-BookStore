@@ -103,7 +103,9 @@
         <div class="container">
             <div class="heading">
                 <h3>Checkout Summary</h3>
-                <p>Go to Shipping Page? </p>
+                @error('invalid-coupon')
+                    <h1>{{ $message }}</h1>
+                @enderror
             </div>
             <div class="row">
                 <div class="col-sm-6">
@@ -112,31 +114,93 @@
                            <li>Cart Sub Total 
                                <span>{{ number_format(Cart::subtotal()) }} TK.</span>
                             </li>
+                            @if (session('coupon'))
+                                <li>
+                                    Discount {{ session('coupon')->percent }}%
+                                    <span>- {{ $discount = ceil(Cart::subtotal() * (session('coupon')->percent / 100)) }} TK.</span>
+                                </li>
+                            @endif
                            <li>
-                               Shipping Cost <span>50 TK.</span>
+                               Shipping Cost <span>+50 TK.</span>
                             </li>
                            <li>
-                               Total 
-                               <span>{{ number_format((Cart::subtotal() + 50)) }} TK.</span>
+                               Total
+                               <span>{{ isset($discount) ? Cart::subtotal() -$discount + 50 : Cart::subtotal() + 50 }} TK.</span>
                             </li>
                         </ul>
-                        <a class="btn btn-default update" href="#">
+                        <a class="btn btn-default update" href="#" onclick="event.preventDefault(); extraScroll('header')" style="background-color: #FE980F; color: white;">
+                            View Items in Cart
+                        </a>
+                        <a class="btn btn-default update" href="#" style="background-color: #FE980F; color: white;">
                             Go to Shipping Page
                         </a>
                      </div>
                 </div>
                 <div class="col-sm-6">
-                    
+
+                    {{-- coupon --}}
+                    <div class="chose_area">
+                        <ul class="user_option">
+                           <li>
+                              <h4>Add Promo code or Gift voucher </h4>
+                           </li>
+                        </ul>
+
+                        <form action="{{ route('coupon.apply') }}" method="GET">
+                            <ul class="user_info">
+                                <li class="">
+
+                                    @if (!session()->has('coupon'))
+                                        <input type="text" id="code" name="code" placeholder="{{ old('code') }}" required>
+                                     @endif
+
+                                     @if (session()->has('coupon'))
+                                        <input type="text" id="code" name="code" value="{{ session()->get('coupon')->code }}" readonly>
+                                     @endif
+
+                                     @error('code')
+                                         <small style="color: red">Invalid Coupon</small>
+                                     @enderror
+                                     @if (session()->has('coupon'))
+                                        <small style="color: green">Coupon Applied Successfully</small>
+                                     @endif
+                                </li>
+                                <li>
+                                    @if (!session()->has('coupon'))
+                                        <button type="submit" class="btn btn-default">Apply Coupon</button>
+                                     @endif
+                                    @if (session()->has('coupon'))
+                                        <a href="{{ route('coupon.remove') }}">Remove Coupon</a>
+                                     @endif
+                                </li>
+                             </ul>
+                        </form>
+
+                     </div>
                 </div>
             </div>
         </div>
     </section>
 @endif
-
 @endsection
 
 @section('javascript')
     <script>
-        
+        $(document).ready(function() {
+            // extraScroll('cart_items');
+        });
+
+        @error('code')
+            extraScroll('do_action');
+        @enderror
+
+        @if (session()->has('validcoupon') || session()->has('reomvecoupon'))
+            extraScroll('do_action');
+        @endif
+
+        function extraScroll(id)
+        {
+            document.getElementById(id).scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+        }
     </script>
 @endsection

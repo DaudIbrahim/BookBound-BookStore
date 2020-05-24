@@ -124,6 +124,8 @@ class TestController extends Controller
         // return session()->get('friends') ?? 'False - Empty session';
         // return session()->forget('google_book');
         // return session()->get('google_book') ?? 'False - 114';
+        // session()->put('coupon', 'CC');
+        return session()->get('coupon');
 
 
 

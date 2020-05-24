@@ -29,10 +29,12 @@
                   </thead>
                   <tbody>
                      @foreach ($coupons as $coupon)
-                         <td>{{ $coupon->id }}</td>
-                         <td>{{ $coupon->code }}</td>
-                         <td>{{ $coupon->percent }}</td>
-                         <td>{{ $coupon->quantity }}</td>
+                        <tr>
+                           <td>{{ $coupon->id }}</td>
+                           <td>{{ $coupon->code }}</td>
+                           <td>{{ $coupon->percent }}</td>
+                           <td>{{ $coupon->quantity }}</td>
+                        </tr>
                      @endforeach
                   </tbody>
                </table>

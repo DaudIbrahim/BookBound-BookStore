@@ -39,7 +39,8 @@ Route::patch('/cart/{row}', 'CartController@update')->name('cart.update');
 Route::delete('/cart/{row}', 'CartController@destroy')->name('cart.destroy');
 
 // Coupon
-
+Route::get('/coupon/apply', 'CouponController@apply')->name('coupon.apply');
+Route::get('/coupon/remove', 'CouponController@remove')->name('coupon.remove');
 
 /**
  * Admin Routes.
