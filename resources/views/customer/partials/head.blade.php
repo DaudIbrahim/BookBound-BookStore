@@ -3,7 +3,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     
-    <title>Home | E-Shopper</title>
+    <title>Book Bound</title>
     <link href="{{ asset('assets/customer') }}/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('assets/customer') }}/assets/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{ asset('assets/customer') }}/assets/css/prettyPhoto.css" rel="stylesheet">

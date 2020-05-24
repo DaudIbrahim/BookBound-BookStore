@@ -13,7 +13,7 @@
             <div class="alert alert-info">
                <strong>Update Price & Quantity</strong> of {{ $book->title }}
             </div>
-            <a href="{{ url()->previous() }}">
+            <a href="{{ route('admin.books.show', ["book" => $book->id]) }}">
                <span class="material-icons">arrow_back</span>
             </a>            
          </div>

@@ -27,8 +27,18 @@ Auth::routes([
  */
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Books
 Route::get('/books', 'BookController@index')->name('books.index');
 Route::get('/books/{book}/details', 'BookController@details')->name('books.details');
+
+// Cart
+Route::get('/cart', 'CartController@index')->name('cart.index');
+Route::post('/cart', 'CartController@store')->name('cart.store');
+Route::patch('/cart/{row}', 'CartController@update')->name('cart.update');
+Route::delete('/cart/{row}', 'CartController@destroy')->name('cart.destroy');
+
+// Coupon
 
 
 /**
@@ -72,6 +82,13 @@ Route::group(['prefix' => 'administrator', "as" => "admin."], function () {
     Route::get('/areas/{area}', 'AdminAreaController@show')->name('areas.show');
     Route::get('/areas/{area}/edit', 'AdminAreaController@edit')->name('areas.edit');
     Route::put('/areas/{area}', 'AdminAreaController@update')->name('areas.update');
+
+    // Coupon
+    Route::get('/coupons', 'AdminCouponController@index')->name('coupons.index');
+    Route::get('/coupons/create', 'AdminCouponController@create')->name('coupons.create');
+    Route::get('/coupons/fetch/code', 'AdminCouponController@code')->name('coupons.code');
+    Route::post('/coupons', 'AdminCouponController@store')->name('coupons.store');
+    Route::get('/coupons/{coupons}', 'AdminCouponController@show')->name('coupons.show');
 
 });
 

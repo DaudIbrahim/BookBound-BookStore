@@ -32,10 +32,23 @@
             <div class="col-sm-8">
                 <div class="shop-menu pull-right">
                     <ul class="nav navbar-nav">
-                        <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-user"></i> {{ Auth::user() ? Auth::user()->name : 'Account'}}
+                            </a>
+                        </li>
                         <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
                         <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                        <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+
+                        <li>
+                            <a href="{{ route('cart.index') }}" class="{{ route::is('cart.index') ? 'active' : ''}}">
+                                <i class="fa fa-shopping-cart"></i> Cart
+                                <span style="font-size: 120%">
+                                    {{ Cart::count() > 0 ? Cart::count() : ''}}
+                                </span>
+                            </a>
+                        </li>
                         
                         @guest
                             <li><a href="{{ route('register') }}"><i class="fa fa-lock"></i> {{ __('Register') }}</a></li>
@@ -56,5 +69,15 @@
                 </div>
             </div>
         </div>
+
+        {{-- @auth
+            @if (Auth::user()->is_admin)
+                <div class="row">
+                    <div class="alert alert-info">
+                        <strong>{{ 'Admin Logged In.' }}</strong>
+                    </div>
+                </div>
+            @endif
+        @endauth --}}
     </div>
 </div><!--/header-middle-->

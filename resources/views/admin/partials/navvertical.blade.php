@@ -4,6 +4,12 @@
       <ul class="nav" id="main-menu">
          {{-- ReferenceWeb - https://laraveldaily.com/how-to-check-current-url-or-route/ --}}
 
+         <li>
+            <a target="_blank" rel="noopener noreferrer" href="{{ route('home') }}">
+               <i class="fa fa-fw fa-shopping-cart"></i> Shop
+            </a>
+         </li>
+
          {{-- Categories --}}
          <li>
             <a href="" class="waves-effect waves-dark">
@@ -74,6 +80,25 @@
                <li>
                   <a href="{{ route('admin.areas.create') }}" class="{{ route::is('admin.areas.create') ? "active-menu" : ""}}">
                      <i class="fa fa-plus" aria-hidden="true"></i>Add New Area
+                  </a>
+               </li>
+            </ul>
+         </li>
+
+         {{-- Coupons --}}
+         <li>
+            <a href="" class="waves-effect waves-dark">
+               <i class="fa fa-sitemap"></i>Coupons<span class="fa arrow"></span>
+            </a>
+            <ul class="nav nav-second-level {{ route::is('admin.coupons.*') ? "collapse in" : "" }}">
+               <li>
+                  <a href="{{ route('admin.coupons.index') }}" class="{{ route::is('admin.coupons.index') ? "active-menu" : ""}}">
+                     <i class="fa fa-file" aria-hidden="true"></i>All Coupons
+                  </a>
+               </li>
+               <li>
+                  <a href="{{ route('admin.coupons.create') }}" class="{{ route::is('admin.coupons.create') ? "active-menu" : ""}}">
+                     <i class="fa fa-plus" aria-hidden="true"></i>Add New Coupons
                   </a>
                </li>
             </ul>

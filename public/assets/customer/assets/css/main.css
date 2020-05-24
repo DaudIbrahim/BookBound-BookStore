@@ -865,7 +865,8 @@ h2.title {
 	color: #FE980F;
 	font-family: 'Roboto', sans-serif;
 	font-size: 15px;
-	font-weight: 700;
+  font-weight: 700;
+  white-space: nowrap;
 }
 .product-overlay h2{
 	color: #fff;
@@ -1253,7 +1254,7 @@ h2.title {
   color: #FE980F;
   float: left;
   font-family: 'Roboto', sans-serif;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   margin-right: 20px;
   margin-top: 0px;
@@ -1597,6 +1598,9 @@ h2.title {
   padding-left: 30px;
 }
 
+.cart_description {
+  padding-left: 50px !important;
+}
 
 #cart_items .cart_info .cart_description h4 {
   margin-bottom: 0
@@ -2527,4 +2531,8 @@ h2.title {
 
 .checked {
   color: orange;
+}
+
+#specification table td:nth-child(1){
+  background-color: #f1f2f4;
 }

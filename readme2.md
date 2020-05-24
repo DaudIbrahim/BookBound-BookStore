@@ -17,7 +17,20 @@
 **[Throw a Simple Exception](https://stackoverflow.com/a/57570894/7031530)**
 In BookBound throwing Exception when a Book has more than one new or used stock.
 
+**[Sass Guidelines for Future Projects](https://sass-guidelin.es/#architecture)**
+
+
 <!-- 
-    Useful Code Snippets
-    php artisan make:model Category --migration
+	php artisan make:model Coupon --migration
+
+	$validatedData = $request->validate([
+        'title' => 'required|unique:posts|max:255',
+        'body' => 'required',
+    ]);
+
+    
+    OOP - Members
+    Use $this to refer to the current object. Use self to refer to the current class. 
+    In other words, use $this->member for non-static members, use self::$member for static members.
+    
  -->

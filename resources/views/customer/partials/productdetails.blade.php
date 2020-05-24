@@ -1,6 +1,12 @@
+
 <div class="product-details">
 
-    <!--product-details-->{{-- Image --}}
+    @if (session('message'))
+        <div class="alert alert-success">
+            <strong>{{ session('message') }}</strong>
+        </div>
+    @endif
+    
     <div class="col-sm-5">
         <div class="view-product">
             <img src="{{ $book->image }}" alt="">
@@ -9,9 +15,26 @@
 
     <div class="col-sm-7">
         <div class="product-information">
-            <!--product-information-->
+
+            @auth
+                @if (Auth::user()->is_admin)
+                    <p class="newarrival">
+                        <a target="_blank" rel="noopener noreferrer" href="{{ route('admin.books.show', ['book' => $book->id]) }}">
+                            Admin Panel
+                        </a>
+                    </p>
+                @endif
+            @endauth
+            
             <h2>{{ $book->title }}</h2>
-            <p>by {{ $book->author->title }}</p>
+            <p>
+                by <a href="#">{{ $book->author->title }}</a>
+            </p>
+            <p>
+                <a href="#">{{ $book->getCategory()->title }}</a> > 
+                <a href="#">{{ $book->subcategory->title }}</a>
+            </p>
+            
             
             {{-- Rating: Due --}}
             {{-- <span class="heading">User Rating</span>
@@ -21,24 +44,56 @@
             <span class="fa fa-star checked"></span>
             <span class="fa fa-star"></span> --}}
             
+            
+            {{-- New Stock --}}
             <span>
-                <span>US $59</span>
-                <label>Quantity:</label>
-                <input type="text" value="3">
-                <button type="button" class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                <p>Condition: <b>New</b></p>
+                <span>TK. {{ $book->newStock()->price }}</span>
+                @if ($book->newStock()->quantity >= 1)
+                    @if (Cart::content()->firstWHere('id', $book->newStock()->id))
+                        <a href="{{ route('cart.index') }}" class="btn btn-fefault cart">
+                            <i class="fa fa-shopping-cart"></i>&nbsp;Go to Cart
+                        </a>
+                    @else
+                        <a href="#" class="btn btn-fefault cart" onclick="event.preventDefault(); document.getElementById('newstock-form').submit();">
+                            <i class="fa fa-shopping-cart"></i>&nbsp;Add to cart
+                        </a>
+                        <form id="newstock-form" action="{{ route('cart.store') }}" method="POST" style="display: none;">
+                            @csrf
+                            <input type="hidden" name="stock_id" value="{{ $book->newStock()->id }}">
+                        </form>
+                    @endif
+                @else
+                    <a href="#" class="btn btn-fefault cart" style="color: black" disabled>
+                        <i class="fa fa-shopping-cart"></i>&nbsp;Out of Stock
+                    </a>
+                @endif
             </span>
 
+            {{-- Used Stock --}}
             <span>
-                <span>US $559</span>
-                <label>Quantity:</label>
-                <input type="text" value="3">
-                <button type="button" class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                <p>Condition: <b>Used</b></p>
+                <span>TK. {{ $book->usedStock()->price }}</span>
+                @if ($book->usedStock()->quantity >= 1)
+                    @if (Cart::content()->firstWHere('id', $book->usedStock()->id))
+                        <a href="{{ route('cart.index') }}" class="btn btn-fefault cart">
+                            <i class="fa fa-shopping-cart"></i>&nbsp;Go to Cart
+                        </a>
+                    @else
+                        <a href="#" class="btn btn-fefault cart" onclick="event.preventDefault(); document.getElementById('usedstock-form').submit();">
+                            <i class="fa fa-shopping-cart"></i>&nbsp;Add to cart
+                        </a>
+                        <form id="usedstock-form" action="{{ route('cart.store') }}" method="POST" style="display: none;">
+                            @csrf
+                            <input type="hidden" name="stock_id" value="{{ $book->usedStock()->id }}">
+                        </form>
+                    @endif
+                @else
+                    <a href="#" class="btn btn-fefault cart" style="color: black" disabled>
+                        <i class="fa fa-shopping-cart"></i>&nbsp;Out of Stock
+                    </a>
+                @endif
             </span>
-
-            <p><b>Availability:</b> In Stock</p>
-            <p><b>Condition:</b> New</p>
-            <p><b>Brand:</b> E-SHOPPER</p>
-            <a href=""><img src="{{ asset('assets/customer/assets') }}/images/product-details/share.png" class="share img-responsive" alt=""></a>
         </div>
         <!--/product-information-->
     </div>
@@ -49,164 +104,56 @@
     <!--category-tab-->
     <div class="col-sm-12">
         <ul class="nav nav-tabs">
-            <li class=""><a href="#details" data-toggle="tab">Details</a></li>
-            <li class="active"><a href="#companyprofile" data-toggle="tab">Company Profile</a></li>
-            <li class=""><a href="#tag" data-toggle="tab">Tag</a></li>
+            <li class="active"><a href="#description" data-toggle="tab">description</a></li>
+            <li class=""><a href="#specification" data-toggle="tab">Specification</a></li>
             <li class=""><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
         </ul>
     </div>
     <div class="tab-content">
-        <div class="tab-pane fade" id="details">
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery1.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery2.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery3.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery4.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="tab-pane fade active in" id="description">
+            <p>
+                {{ $book->description }}
+            </p>
         </div>
 
-        <div class="tab-pane fade active in" id="companyprofile">
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery1.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery3.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery2.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery4.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="tag">
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery1.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery2.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery3.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="product-image-wrapper">
-                    <div class="single-products">
-                        <div class="productinfo text-center">
-                            <img src="{{ asset('assets/customer/assets') }}/images/home/gallery4.jpg" alt="">
-                            <h2>$56</h2>
-                            <p>Easy Polo Black Edition</p>
-                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="tab-pane fadea" id="specification">
+            <table class="table table-bordered">
+                <tbody>
+                   <tr>
+                      <td>Title</td>
+                      <td>{{ $book->title }}</td>
+                   </tr>
+                   <tr>
+                       <td>Author</td>
+                       <td>{{ $book->author->title }}</td>
+                   </tr>
+                   <tr>
+                       <td>Publisher</td>
+                       <td> {{$book->publisher }} </td>
+                   </tr>
+                   <tr>
+                       <td>ISBN-13</td>
+                       <td> {{$book->isbn_13 }} </td>
+                   </tr>
+                   <tr>
+                       <td>ISBN-10</td>
+                       <td> {{$book->isbn_10 }} </td>
+                   </tr>
+                   <tr>
+                       <td>Published Date</td>
+                        <td> {{$book->published_date }} </td>
+                    </tr>
+                   <tr>
+                       <td>Number of Pages</td>
+                       <td> {{$book->page_count }} </td>
+                   </tr>
+                   <tr>
+                       <td>Language</td>
+                       <td> {{$book->lang }} </td>
+                   </tr>
+                    
+                </tbody>
+             </table>
         </div>
 
         <div class="tab-pane fade" id="reviews">
