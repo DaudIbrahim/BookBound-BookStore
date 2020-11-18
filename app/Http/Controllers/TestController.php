@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+use App\User;
 use App\Category;
 use App\SubCategory;
 use App\Author;
@@ -14,6 +15,7 @@ use App\Book;
 use App\Stock;
 use App\City;
 use App\Coupon;
+use App\Status;
 
 use Scriptotek\GoogleBooks\GoogleBooks;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -125,7 +127,7 @@ class TestController extends Controller
         // return session()->forget('google_book');
         // return session()->get('google_book') ?? 'False - 114';
         // session()->put('coupon', 'CC');
-        return session()->get('coupon');
+        // return session()->get('coupon');
 
 
 
@@ -150,6 +152,10 @@ class TestController extends Controller
         /**
          * Creating a City Only Dhaka
          */
+        // $city = new City;
+        // $city->title = 'Dhaka';
+        // $city->save();
+        // return $city;
         // $city = City::findOrFail('1');
         // return $city;
 
@@ -228,7 +234,24 @@ class TestController extends Controller
         // $x = (DB::select($select)[0]);
         // return $x->AUTO_INCREMENT;
 
+        /**
+         * Deleting a Stock
+         */
+        // $book = Book::findOrFail('1');
+        // $book->stock[0]->delete();
+        // $book->stock[1]->delete();
+        
+        
+        /**
+         * Create Statuses
+         */
+        // (new Status(["title" => "Approved"]))->save();
+        // (new Status(["title" => "On Shipping"]))->save();
+        // (new Status(["title" => "Completed"]))->save();
+        // return Status::get();
 
+        return Auth::user()->email;
+        return '- TEST -';
     }
 
     public function api($boolean = false) {

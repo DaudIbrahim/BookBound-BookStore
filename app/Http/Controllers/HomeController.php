@@ -26,6 +26,7 @@ class HomeController extends Controller
     {
         // This is Good Candidate for index page
         $books = Book::get();
+        // $books = Book::inRandomOrder()->get();
         return view('customer.pages.test', compact('books'));
     }
 }

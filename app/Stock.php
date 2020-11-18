@@ -17,4 +17,12 @@ class Stock extends Model
     {
         return $this->belongsTo(Book::class);
     }
+
+    // Many to Many (order_stock)
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class)
+            ->withTimestamps()
+            ->withPivot('quantity', 'price');
+}
 }

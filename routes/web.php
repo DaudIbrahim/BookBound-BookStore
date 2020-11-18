@@ -33,7 +33,7 @@ Route::get('/books', 'BookController@index')->name('books.index');
 Route::get('/books/{book}/details', 'BookController@details')->name('books.details');
 
 // Cart
-Route::get('/cart', 'CartController@index')->name('cart.index');
+Route::get('/cart/{row?}', 'CartController@index')->name('cart.index');
 Route::post('/cart', 'CartController@store')->name('cart.store');
 Route::patch('/cart/{row}', 'CartController@update')->name('cart.update');
 Route::delete('/cart/{row}', 'CartController@destroy')->name('cart.destroy');
@@ -41,6 +41,13 @@ Route::delete('/cart/{row}', 'CartController@destroy')->name('cart.destroy');
 // Coupon
 Route::get('/coupon/apply', 'CouponController@apply')->name('coupon.apply');
 Route::get('/coupon/remove', 'CouponController@remove')->name('coupon.remove');
+
+// Checkout
+Route::get('/checkout', 'CustomerCheckoutController@index')->name('checkout.index');
+Route::post('/checkout', 'CustomerCheckoutController@store')->name('checkout.store');
+
+// Thankyou
+// Route::get('/thankyou', 'ConfirmationController@index')->name('confirmation.index');
 
 /**
  * Admin Routes.
@@ -52,6 +59,9 @@ Route::group(['prefix' => 'administrator', "as" => "admin."], function () {
     // Books (Following Resource Controller Convention ✔)
     Route::get('/books', 'AdminBookController@index')->name('books.index'); #1 Index
     Route::get('/books/search', 'AdminBookController@search')->name('books.search');
+
+    Route::get('/books/search/title', 'AdminBookController@searchByTitle')->name('books.search.title');
+
     Route::get('/books/create', 'AdminBookController@create')->name('books.create'); #2 Create
     Route::post('/books', 'AdminBookController@store')->name('books.store'); #3 Store
     Route::get('/books/{book}', 'AdminBookController@show')->name('books.show'); #4 Show

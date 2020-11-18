@@ -34,18 +34,26 @@
                     <ul class="nav navbar-nav">
 
                         <li>
-                            <a href="#">
-                                <i class="fa fa-user"></i> {{ Auth::user() ? Auth::user()->name : 'Account'}}
-                            </a>
+                            @auth
+                                @if (Auth::user()->is_admin)
+                                    <a href="{{ route('admin.home') }}">
+                                        <i class="fa fa-user"></i> {{ Auth::user()->name }} Panel
+                                    </a>
+                                @else
+                                    <a href="{{ '#' }}">
+                                        <i class="fa fa-user"></i> {{ Auth::user()->name }}
+                                    </a>
+                                @endif
+                            @endauth
                         </li>
-                        <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-                        <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                        {{-- <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
+                        <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li> --}}
 
                         <li>
                             <a href="{{ route('cart.index') }}" class="{{ route::is('cart.index') ? 'active' : ''}}">
                                 <i class="fa fa-shopping-cart"></i> Cart
-                                <span style="font-size: 120%">
-                                    {{ Cart::count() > 0 ? Cart::count() : ''}}
+                                <span style="{{ Cart::count() > 0 ? 'font-size: 120%' : '' }}">
+                                    {{ Cart::count() > 0 ? Cart::count() : '' }}
                                 </span>
                             </a>
                         </li>

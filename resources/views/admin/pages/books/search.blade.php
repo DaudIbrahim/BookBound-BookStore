@@ -28,11 +28,11 @@
                      </button>
                   </div>
                </div>
-               <div class="row">
+               {{-- <div class="row">
                   @if (session('google_book'))
                       Last Search: <a href="{{ route('admin.books.create') }}">{{ session('google_book')['title'] }}</a>
                   @endif
-               </div>
+               </div> --}}
            </form>
          </div>
          <div class="clearBoth"><br/></div>

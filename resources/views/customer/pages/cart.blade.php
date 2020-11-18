@@ -4,6 +4,29 @@
 
 
 @if (Cart::count() == 0)
+
+    {{-- TESTING --}}
+    @if (session('order_id'))
+        <div class="container">
+            <div class="alert alert-success">
+                <strong>{{ session('order_success') }}</strong>
+            </div>
+            <div class="alert alert-success">
+                Order ID - <strong>{{ session('order_id') }}</strong>
+            </div>
+        </div>
+    @endif
+    {{-- TESTING --}}
+
+
+    @if (session('message-danger'))
+        <div class="container">
+            <div class="alert alert-danger">
+                <strong>{{ session('message-danger') }}</strong>
+            </div>
+        </div>
+    @endif
+
     <div class="text-center" style="margin-bottom: 10%">
         <h1 class="title">Your Cart is Empty!</h1>
         <p class="sub-title">Looks like you haven't made order yet.</p>
@@ -15,6 +38,8 @@
 @if (Cart::count() != 0)
     <section id="cart_items">
         <div class="container">
+
+            
 
             @if (session('message-danger'))
                 <div class="alert alert-danger">
@@ -102,27 +127,44 @@
     <section id="do_action">
         <div class="container">
             <div class="heading">
-                <h3>Checkout Summary</h3>
-                @error('invalid-coupon')
-                    <h1>{{ $message }}</h1>
-                @enderror
+
+                @guest
+                    <div class="alert alert-warning">
+                        <strong>
+                            <a href="">Login</a>/<a href="">Signup</a>
+                            to Checkout & Confirm Order
+                        </strong>
+                    </div>
+                @endguest
+
+                @auth
+                    @if (Auth::user()->is_admin)
+                        <div class="alert alert-warning">
+                            <strong>
+                                Administrator restricted to checkout.
+                            </strong>
+                        </div>
+                    @endif
+                @endauth
+
+            <h3>Summary</h3>
             </div>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="total_area">
                         <ul>
-                           <li>Cart Sub Total 
+                           <li>Subtotal
                                <span>{{ number_format(Cart::subtotal()) }} TK.</span>
                             </li>
+                            <li>
+                                Shipping <span>+50 TK.</span>
+                             </li>
                             @if (session('coupon'))
                                 <li>
                                     Discount {{ session('coupon')->percent }}%
                                     <span>- {{ $discount = ceil(Cart::subtotal() * (session('coupon')->percent / 100)) }} TK.</span>
                                 </li>
                             @endif
-                           <li>
-                               Shipping Cost <span>+50 TK.</span>
-                            </li>
                            <li>
                                Total
                                <span>{{ isset($discount) ? Cart::subtotal() -$discount + 50 : Cart::subtotal() + 50 }} TK.</span>
@@ -131,14 +173,14 @@
                         <a class="btn btn-default update" href="#" onclick="event.preventDefault(); extraScroll('header')" style="background-color: #FE980F; color: white;">
                             View Items in Cart
                         </a>
-                        <a class="btn btn-default update" href="#" style="background-color: #FE980F; color: white;">
-                            Go to Shipping Page
+                        <a class="btn btn-default update" href="{{ route('checkout.index') }}" style="background-color: #FE980F; color: white;">
+                            Proceed to Checkout
                         </a>
                      </div>
                 </div>
                 <div class="col-sm-6">
 
-                    {{-- coupon --}}
+                    {{-- Coupons --}}
                     <div class="chose_area">
                         <ul class="user_option">
                            <li>
@@ -150,28 +192,32 @@
                             <ul class="user_info">
                                 <li class="">
 
+                                    {{-- Input Field --}}
                                     @if (!session()->has('coupon'))
                                         <input type="text" id="code" name="code" placeholder="{{ old('code') }}" required>
                                      @endif
-
                                      @if (session()->has('coupon'))
                                         <input type="text" id="code" name="code" value="{{ session()->get('coupon')->code }}" readonly>
                                      @endif
 
+                                    {{-- Error Message --}}
                                      @error('code')
-                                         <small style="color: red">Invalid Coupon</small>
+                                         <small style="color: red">{{ $message }}</small>
                                      @enderror
                                      @if (session()->has('coupon'))
                                         <small style="color: green">Coupon Applied Successfully</small>
                                      @endif
                                 </li>
                                 <li>
+
+                                    {{-- Apply/Remove Coupon Button --}}
                                     @if (!session()->has('coupon'))
                                         <button type="submit" class="btn btn-default">Apply Coupon</button>
                                      @endif
                                     @if (session()->has('coupon'))
                                         <a href="{{ route('coupon.remove') }}">Remove Coupon</a>
-                                     @endif
+                                    @endif
+
                                 </li>
                              </ul>
                         </form>

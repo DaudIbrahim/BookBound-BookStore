@@ -1,7 +1,7 @@
 @extends('admin.layout.master')
 
 @section('page-header')
-  Create Area
+   Add New Area
 @endsection
 
 @section('content')

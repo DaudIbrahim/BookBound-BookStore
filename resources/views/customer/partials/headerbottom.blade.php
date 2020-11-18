@@ -37,9 +37,11 @@
                 <div class="search_box pull-right">
                     {{-- <input type="text" placeholder="Search"/> --}}
                     @if (route::is('cart.index'))
-                        <button type="button" class="btn btn-outline-primary" onclick="extraScroll('do_action')">
-                            <i class="fa fa-credit-card" aria-hidden="true"></i> Checkout
-                        </button>
+                        @if (Cart::count() > 0)
+                            <button type="button" class="btn btn-outline-primary" onclick="extraScroll('do_action')">
+                                <i class="fa fa-credit-card" aria-hidden="true"></i> Proceed
+                            </button>    
+                        @endif
                     @endif
                 </div>
             </div>

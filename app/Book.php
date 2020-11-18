@@ -35,14 +35,14 @@ class Book extends Model
     public function newStock()
     {
         $newStock = $this->stock->where('is_used', false);
-        if ($newStock->count() !== 1) { throw new \ErrorException('More Than One: New-Stock-Records'); }
+        if ($newStock->count() !== 1) { throw new \ErrorException('In DB More Than One: New-Stock-Record'); }
         return $newStock->first();
     }
 
     public function usedStock()
     {
         $usedStock = $this->stock->where('is_used', true);
-        if ($usedStock->count() !== 1) { throw new \ErrorException('More Than One: Used-Stock-Records'); }
+        if ($usedStock->count() !== 1) { throw new \ErrorException('In DB More Than One: Used-Stock-Record'); }
         return $usedStock->first();
     }
 

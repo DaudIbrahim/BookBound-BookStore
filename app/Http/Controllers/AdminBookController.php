@@ -70,6 +70,7 @@ class AdminBookController extends Controller
             // Found in Google API
             if ($google_book) {
                 // Check if Already in Database.
+                // $book = Book::where('isbn_13', $google_book['isbn_13'])->first();
                 $book = Book::where('title', $google_book['title'])->first();
                 if ($book) {
                     $message = "Book already exists in Database.";
@@ -81,6 +82,80 @@ class AdminBookController extends Controller
                 return redirect()->route('admin.books.create');
             }
         }
+    }
+
+    /**
+     * Search by Title
+     * 15-Nov-20
+     */
+    public function searchByTitle(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'min:1|max:25|string'
+        ]);
+
+        // Validation Fail
+        if ($validator->fails()) {
+            return redirect()->route('admin.books.search.title')->withErrors($validator)->withInput();
+        }
+        
+        // Google API
+        $books = new GoogleBooks(['country' => 'NO', 'maxResults' => 10]);
+        $title = $request->title;
+        $books_array = array();
+
+        // (Code Repeat)
+        if ($title) {
+            foreach ($books->volumes->search($title) as $volume) {
+            
+                $completeInfo = true;
+                $a = array();
+    
+                $a["isbn_10"] = null;
+                $a["isbn_13"] = null;
+    
+                if (isset($volume->volumeInfo->industryIdentifiers[0])) {
+                    $a[strtolower($volume->volumeInfo->industryIdentifiers[0]->type)]
+                    = $volume->volumeInfo->industryIdentifiers[0]->identifier ?? null;
+                }
+    
+                if (isset($volume->volumeInfo->industryIdentifiers[1])) {
+                    $a[strtolower($volume->volumeInfo->industryIdentifiers[1]->type)]
+                    = $volume->volumeInfo->industryIdentifiers[1]->identifier ?? null;
+                }
+    
+                $a["title"] = ($volume->volumeInfo->title) ?? null;
+                $a["image"] = ($volume->volumeInfo->imageLinks->thumbnail) ?? null;
+    
+                // Second Info
+                $a["published_date"] = ($volume->volumeInfo->publishedDate) ?? null;
+                $a["description"] = ($volume->volumeInfo->description) ?? null;
+                $a["page_count"] = ($volume->volumeInfo->pageCount) ?? null;
+                $a["lang"] = ($volume->volumeInfo->language) ?? null;
+    
+                // FK
+                $a["category"] = 1;
+                $a["author"] = ($volume->volumeInfo->authors[0]) ?? null;
+                $a["publisher"] = ($volume->volumeInfo->publisher) ?? null;
+    
+                // Complete Info
+                foreach ($a as $key => $value) {
+                    if ($value === null) {
+                        $completeInfo = false;
+                        break;
+                    }
+                }
+                
+                if ($completeInfo) {
+                    array_push($books_array, $a);
+                    continue;
+                }
+    
+            }
+        }
+
+        return view('admin.pages.books.searchtitle', compact('title', 'books_array'));
+
     }
 
 
@@ -121,6 +196,7 @@ class AdminBookController extends Controller
         ]);
 
         $google_book = session()->get('google_book');
+        // $book = Book::where('isbn_13', $google_book['isbn_13'])->first();
         $book = Book::where('title', $google_book['title'])->first();
 
         if ($book !== null) {

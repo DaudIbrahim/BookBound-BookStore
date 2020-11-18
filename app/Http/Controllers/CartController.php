@@ -16,12 +16,36 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        // Remove Coupon If Cart Empty
-        if (Cart::count() == 0) { 
-            session()->has('coupon') ?  session()->forget('coupon') : '';
+    {    
+        // Check if Stock is still available
+        $out_of_stock = false;
+        $out_of_stock_message = "";
+
+        foreach (Cart::content() as $row) {
+            if ($row->model->quantity === 0) {
+                $out_of_stock = true;
+                $out_of_stock_message .= "$row->name, ";
+                Cart::remove($row->rowId);
+            }
         }
-        
+
+        // Redirect if out of stock
+        if ($out_of_stock) {
+            return redirect()->route('cart.index')->with('message-danger', "Out of Stock - $out_of_stock_message Removed from Cart");
+        }
+
+        // Coupon Validity Check
+        if (Cart::count() == 0) { session()->forget('coupon'); }
+        if (session()->get('coupon')) {
+            if ($coupon = Coupon::where('code', session()->get('coupon')->code)->first()) {
+                if ($coupon->isExpired()) {
+                    session()->forget('coupon');
+                    return redirect()->route('cart.index')->withErrors(["code" => "Expired Coupon"])->withInput(["code" => $coupon->code]);
+                }
+            }
+        }
+
+        // Full/Empty Cart is dealt in View
         return view('customer.pages.cart');
     }
 
@@ -116,6 +140,7 @@ class CartController extends Controller
     public function destroy($id)
     {
         Cart::remove($id);
+        if (Cart::count() == 0) { session()->forget('coupon'); }
         return back()->with('message-success', 'Item Removed From Cart');
     }
 }

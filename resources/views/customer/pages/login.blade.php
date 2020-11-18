@@ -6,7 +6,10 @@
         <div class="row">
             <div class="col-md-5 col-sm-offset-1">
                 <div class="signup-form">
-                    <h2>Login to your Account!</h2>
+                    <h2>Login to your Account! Or
+                        <a href="{{ route('register') }}">Signup!</a>
+                    </h2>
+                    
 
                     {{-- Work with Form --}}
                     <form method="POST" action="{{ route('login') }}">

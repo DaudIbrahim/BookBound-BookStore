@@ -17,7 +17,7 @@
                   <table class="table">
                       <thead>
                           <tr>
-                              <th>#</th>
+                              <th>Id</th>
                               <th>Title</th>
                               <th>Subcategory</th>
                               <th>Category</th>

@@ -21,9 +21,9 @@ class CreateBooksTable extends Migration
             $table->unsignedBigInteger('author_id');
 
             // About Book
-            $table->string('title')->unique();
+            $table->string('isbn_13', 20)->unique();
             $table->string('isbn_10', 20);
-            $table->string('isbn_13', 20);
+            $table->string('title');
             $table->string('image', 2500);
             $table->string('published_date', 20);
             $table->string('description', 2500);

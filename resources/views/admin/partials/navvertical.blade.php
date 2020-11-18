@@ -58,8 +58,11 @@
                   <a href="{{ route('admin.books.index') }}" class="{{ route::is('admin.books.index') ? "active-menu" : ""}}">
                      <i class="fa fa-file" aria-hidden="true"></i>All Books
                   </a>
+                  <a href="{{ route('admin.books.search.title') }}" class="{{ route::is('admin.books.search.title') ? "active-menu" : ""}}">
+                     <i class="fa fa-search-plus" aria-hidden="true"></i>Add Book by Title
+                  </a>
                   <a href="{{ route('admin.books.search') }}" class="{{ route::is('admin.books.search') ? "active-menu" : ""}}">
-                     <i class="fa fa-search-plus" aria-hidden="true"></i>Search/Add Book
+                     <i class="fa fa-search-plus" aria-hidden="true"></i>Add Book by ISBN
                   </a>
                </li>
             </ul>

@@ -2,7 +2,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    
+        
+    @if (route::is('checkout.index'))
+        <title>Stripe</title>
+    @endif
+    <script src="https://js.stripe.com/v3/"></script>
+    <link href="{{ asset('css/stripe.css') }}" rel="stylesheet">
+
     <title>Book Bound</title>
     <link href="{{ asset('assets/customer') }}/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('assets/customer') }}/assets/css/font-awesome.min.css" rel="stylesheet">

@@ -17,6 +17,16 @@ class Coupon extends Model
         'code', 'percent', 'quantity',
     ];
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function isExpired()
+    {
+        return $this->quantity === 0;
+    }
+
     /**
      * Get current AUTO_INCREMENT value for `coupons` table
      * Genrate 4 Random Upper Case Letters
