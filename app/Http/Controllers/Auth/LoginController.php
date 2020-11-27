@@ -32,7 +32,7 @@ class LoginController extends Controller
         }
 
         if (Auth::user()->is_admin) {
-            return ('/administrator');
+            return ('/administrator/home');
         }
     }
 

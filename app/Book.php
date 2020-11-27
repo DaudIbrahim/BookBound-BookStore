@@ -50,4 +50,9 @@ class Book extends Model
     {
         return $this->subcategory->category;
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

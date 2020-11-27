@@ -17,6 +17,7 @@ use App\City;
 use App\Coupon;
 use App\Status;
 use App\Order;
+use App\Review;
 
 use Scriptotek\GoogleBooks\GoogleBooks;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -280,8 +281,15 @@ class TestController extends Controller
         /**
          * Bug Solved Categories/Subcategories returning wrong Author
          */
-        $author = Author::whereIn('id', [3, 5, 8])->orderBy('title')->get();
-        return($author);
+        // $author = Author::whereIn('id', [3, 5, 8])->orderBy('title')->get();
+        // return($author);
+
+        /**
+         * Review
+         */
+        $review = Review::findOrFail(1);
+        return $review;
+
 
 
         // -----

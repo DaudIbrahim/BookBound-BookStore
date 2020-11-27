@@ -4,6 +4,14 @@
       <ul class="nav" id="main-menu">
          {{-- ReferenceWeb - https://laraveldaily.com/how-to-check-current-url-or-route/ --}}
 
+
+         {{-- Home/Dashboard --}}
+         <li>
+            <a class= "{{ route::is('admin.home') ? "active-menu" : ""}} waves-effect waves-dark" href="{{ route('admin.home') }}">
+             <i class="fa fa-dashboard"></i> Dashboard
+            </a>
+          </li>
+
          <li>
             <a target="_blank" rel="noopener noreferrer" href="{{ route('books.index') }}">
                <i class="fa fa-fw fa-shopping-cart"></i> Shop
@@ -125,13 +133,6 @@
                </li>
             </ul>
          </li>
-
-
-         <li>
-            <a class= "{{ route::is('admin.') ? "active-menu" : ""}} waves-effect waves-dark" href="{{ route('admin.') }}">
-             <i class="fa fa-fw fa-file"></i> Test
-            </a>
-          </li>
 
       </ul>
    </div>

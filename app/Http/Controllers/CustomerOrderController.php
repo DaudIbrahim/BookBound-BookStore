@@ -21,7 +21,6 @@ class CustomerOrderController extends Controller
         $this->middleware('customer');
     }
 
-
     /**
      * Display a listing of the resource.
      *

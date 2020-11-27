@@ -56,6 +56,10 @@ Route::post('/checkout', 'CustomerCheckoutController@store')->name('checkout.sto
 Route::get('/orders', 'CustomerOrderController@index')->name('orders.index');
 Route::get('/orders/{order}', 'CustomerOrderController@show')->name('orders.show');
 
+// Reviews (Store)
+Route::get('/reviews', 'CustomerReviewController@index')->name('reviews.index');
+Route::post('/reviews', 'CustomerReviewController@store')->name('reviews.store');
+
 /**
  * Admin Routes.
  */

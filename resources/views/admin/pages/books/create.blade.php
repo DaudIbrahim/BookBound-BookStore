@@ -123,7 +123,7 @@
                         </div>
                         <div class="input-field col s5">
                            <input type="number" name="new_quantity" id="new_quantity" 
-                              min="10" max="50" step="1" value="10" required>
+                              min="10" max="50" step="1" value="5" required>
                            <label for="new_quantity" class="active" style="font-size: 88%">Quantity</label>
                         </div>
 
@@ -140,7 +140,7 @@
                         </div>
                         <div class="input-field col s5">
                            <input type="number" name="used_quantity" id="used_quantity" 
-                              min="10" max="50" step="1" value="10" required>
+                              min="10" max="50" step="1" value="5" required>
                            <label for="used_quantity" class="active" style="font-size: 88%">Quantity</label>
                         </div>
 

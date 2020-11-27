@@ -2525,6 +2525,89 @@ h2.title {
   color: #FE980F;
 }
 
+
+/*************************
+*******Rating CSS******
+**************************/
+.txt-center22 {
+  text-align: center;
+}
+.hide22 {
+  display: none;
+}
+
+.clear22 {
+  float: none;
+  clear: both;
+}
+
+.rating22 {
+  width: 90px;
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  text-align: center;
+  position: relative;
+}
+
+.rating22 > label {
+  float: right;
+  display: inline;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  width: 1.1em;
+  cursor: pointer;
+  color: #000;
+}
+
+.rating22 > label:hover,
+.rating22 > label:hover ~ label,
+.rating22 > input.radio-btn:checked ~ label {
+  color: transparent;
+}
+
+.rating22 > label:hover:before,
+.rating22 > label:hover ~ label:before,
+.rating22 > input.radio-btn:checked ~ label:before,
+.rating22 > input.radio-btn:checked ~ label:before {
+  content: "\2605";
+  position: absolute;
+  left: 0;
+  color: #ffd700;
+}
+
+/***************************************************
+* https://stackoverflow.com/a/34950378/7031530
+**************************************************/
+.stars-container {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+}
+
+.stars-container:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '★★★★★';
+  color: lightgray;
+}
+
+.stars-container:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '★★★★★';
+  color: gold;
+  overflow: hidden;
+}
+
+.stars-1:after { width: 20%; }
+.stars-2:after { width: 40%; }
+.stars-3:after { width: 60%; }
+.stars-4:after { width: 80%; }
+.stars-5:after { width: 100%; }
+
 /*************************
 *******Custom CSS : Daud******
 **************************/

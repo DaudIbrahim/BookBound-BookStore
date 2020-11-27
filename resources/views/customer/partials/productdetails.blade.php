@@ -28,21 +28,21 @@
             
             <h2>{{ $book->title }}</h2>
             <p>
-                by <a href="#">{{ $book->author->title }}</a>
+                by <a href="{{ route('books.index', ['author' => $book->author->id]) }}">{{ $book->author->title }}</a>
             </p>
             <p>
-                <a href="#">{{ $book->getCategory()->title }}</a> > 
-                <a href="#">{{ $book->subcategory->title }}</a>
+                <a href="{{ route('books.index', ['category' => $book->getCategory()->id ]) }}">{{ $book->getCategory()->title }}</a> > 
+                <a href="{{ route('books.index', ['subcategory' => $book->subcategory->id ]) }}">{{ $book->subcategory->title }}</a>
             </p>
             
             
             {{-- Rating: Due --}}
-            {{-- <span class="heading">User Rating</span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span> --}}
+            @if ($averageRating)
+                <div>
+                    <span class="heading">{{ $averageRating }}/5</span>
+                    <span class="fa fa-star checked"></span>
+                </div>
+            @endif
             
             
             {{-- New Stock --}}
@@ -104,19 +104,122 @@
     <!--category-tab-->
     <div class="col-sm-12">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#description" data-toggle="tab">description</a></li>
-            <li class=""><a href="#specification" data-toggle="tab">Specification</a></li>
-            <li class=""><a href="#reviews" data-toggle="tab">Reviews (5)</a></li>
+            @if ($review)
+                <li class=""><a href="#description" data-toggle="tab">description</a></li>
+                <li class=""><a href="#specification" data-toggle="tab">Specification</a></li>
+                <li class="active"><a href="#reviews" data-toggle="tab">Reviews ({{$book->reviews->count()}})</a></li>
+            @else
+                <li class="active"><a href="#description" data-toggle="tab">description</a></li>
+                <li class=""><a href="#specification" data-toggle="tab">Specification</a></li>
+                <li class=""><a href="#reviews" data-toggle="tab">Reviews ({{$book->reviews->count()}})</a></li>
+            @endif
         </ul>
     </div>
     <div class="tab-content">
-        <div class="tab-pane fade active in" id="description">
+
+        <div class="tab-pane fade {{ $review ? 'active in' : ''}}" id="reviews">
+            <div class="col-sm-12">
+
+                {{-- Reviews --}}
+                @foreach ($book->reviews as $r)
+                    <div>
+                        <ul>
+                            <li><span class="stars-container stars-{{ $r->rating }}">★★★★★</span></li>
+                            <li><a href="#"></a></li>
+                            <li><a href="#" onclick="event.preventDefault()"><i class="fa fa-user"></i>{{ $r->user->name}}</a></li>
+                            <li><a href="#" onclick="event.preventDefault()"><i class="fa fa-clock-o"></i>{{ date_format($r->created_at, 'g:i A')}}</a></li>
+                            <li><a href="#" onclick="event.preventDefault()"><i class="fa fa-calendar-o"></i>{{ date_format($r->created_at, 'jS F Y')}}</a></li>
+                            
+                        </ul>
+                        <p>{{ $r->description }}</p>
+                    </div>
+                    <br>
+                @endforeach
+                
+
+                {{-- Review Form --}}
+                @auth
+                    @if (!Auth::user()->is_admin)
+
+                        @if (!$userHasReviewed)
+                        <div style="padding-top: 30px;">
+                            <p>
+                                <b>Write Your Review</b>
+                            </p>
+                            
+                            <form action="{{ route('reviews.store') }}" method="post" id="review-form">
+                                @csrf
+
+                                <textarea id ="description" name="description" style="color: black" placeholder="Description">{{ old('description') ?? "" }}</textarea>
+
+                                {{-- <b>Rating: </b> <img src="{{ asset('assets/customer/assets') }}/images/product-details/rating.png" alt=""> --}}
+
+                                <b>Rating: </b>
+                                <div class="txt-center22">
+                                    <div class="rating22">
+                                        <input id="star5" name="rating" type="radio" value="5" class="radio-btn hide22" />
+                                        <label for="star5">☆</label>
+                                        <input id="star4" name="rating" type="radio" value="4" class="radio-btn hide22" />
+                                        <label for="star4">☆</label>
+                                        <input id="star3" name="rating" type="radio" value="3" class="radio-btn hide22" />
+                                        <label for="star3">☆</label>
+                                        <input id="star2" name="rating" type="radio" value="2" class="radio-btn hide22" />
+                                        <label for="star2">☆</label>
+                                        <input id="star1" name="rating" type="radio" value="1" class="radio-btn hide22" />
+                                        <label for="star1">☆</label>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+
+                                {{--  Hidden Book Id--}}
+                                <input type="hidden" name="book" value="{{ $book->id }}">
+                                
+                                <button type="submit" class="btn btn-default pull-right">Submit</button>
+                            </form>
+                            @if ($errors->any())
+                                <br><br><br><!--SPACING-->
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+
+                        </div>
+                        @elseif($userHasReviewed)
+                            <div id="review-form" style="padding-top: 30px;">
+                                <p>
+                                    <b>Rated & Reviewed</b>
+                                </p>
+                            </div>
+                        @endif
+                        
+                    @endif
+                @endauth
+
+                @guest
+                    <div id="review-form" style="padding-top: 30px;">
+                        <p>
+                            <a href="{{ route('login')}} ">Login</a>/<a href="{{ route('register') }}">Register</a> to
+                            <b>Write Your Review</b>
+                        </p>
+                    </div>
+                @endguest
+                
+                
+            </div>
+        </div>
+
+        <div class="tab-pane fade {{ $review ? '' : 'active in'}}" id="description">
             <p>
                 {{ $book->description }}
             </p>
         </div>
 
-        <div class="tab-pane fadea" id="specification">
+        <div class="tab-pane fade" id="specification">
             <table class="table table-bordered">
                 <tbody>
                    <tr>
@@ -156,31 +259,6 @@
              </table>
         </div>
 
-        <div class="tab-pane fade" id="reviews">
-            <div class="col-sm-12">
-                <ul>
-                    <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
-                    <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-                    <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
-                </ul>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis
-                    aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                <p><b>Write Your Review</b></p>
-
-                <form action="#">
-                    <span>
-                                        <input type="text" placeholder="Your Name">
-                                        <input type="email" placeholder="Email Address">
-                                    </span>
-                    <textarea name=""></textarea>
-                    <b>Rating: </b> <img src="{{ asset('assets/customer/assets') }}/images/product-details/rating.png" alt="">
-                    <button type="button" class="btn btn-default pull-right">
-                                        Submit
-                                    </button>
-                </form>
-            </div>
-        </div>
-
     </div>
 </div>
 <!--/category-tab-->
@@ -191,7 +269,7 @@
 
     <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="item">
+            {{-- <div class="item">
                 <div class="col-sm-4">
                     <div class="product-image-wrapper">
                         <div class="single-products">
@@ -228,21 +306,26 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="item active">
-                <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                        <div class="single-products">
-                            <div class="productinfo text-center">
-                                <img src="{{ asset('assets/customer/assets') }}/images/home/recommend1.jpg" alt="">
-                                <h2>$56</h2>
-                                <p>Easy Polo Black Edition</p>
-                                <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+
+                @foreach ($random as $b)
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <a href="{{ route('books.details', $b->id) }}">
+                                        <img class="img-fluid" src="{{ $b->image}}" alt="">
+                                    </a>
+                                    <h2>{{ $b->title }}</h2>
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-4">
+                @endforeach
+
+                {{-- <div class="col-sm-4">
                     <div class="product-image-wrapper">
                         <div class="single-products">
                             <div class="productinfo text-center">
@@ -265,15 +348,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
-        <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-                            <i class="fa fa-angle-left"></i>
-                            </a>
+        {{-- <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+            <i class="fa fa-angle-left"></i>
+        </a>
         <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-                            <i class="fa fa-angle-right"></i>
-                            </a>
+            <i class="fa fa-angle-right"></i>
+        </a> --}}
     </div>
 </div>
 <!--/recommended_items-->

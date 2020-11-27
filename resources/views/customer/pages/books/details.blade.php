@@ -17,7 +17,12 @@
 @endsection
 
 @section('javascript')
-    <script>
-        
-    </script>
+    {{-- Review Tab Activate --}}
+    @if ($review)
+        <script>
+            $(window).on("load", function() {
+                document.getElementById('review-form').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+            });
+        </script>
+    @endif
 @endsection

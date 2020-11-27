@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 use App\Category;
 use App\Subcategory;
 use App\Author;
 use App\Book;
+use App\Review;
 
 class BookController extends Controller
 {
@@ -124,9 +126,27 @@ class BookController extends Controller
     /**
      * Display Details of A Book
      */
-    public function details($id)
+    public function details(Request $request, $id)
     {   
-        $book = Book::findOrFail($id);
-        return view('customer.pages.books.details', compact('book'));
+        $book = Book::with(['subcategory', 'author', 'reviews.user'])->findOrFail($id);
+        $random = (Book::get())->random(3);
+
+        $averageRating = Review::where('book_id', $id)->avg('rating');
+        $averageRating = round($averageRating, 1);
+
+        if (Auth::user()) {
+            $userHasReviewed = Review::where('user_id', Auth::user()->id)->where('book_id', $id)->first();
+        } else {
+            $userHasReviewed = null;
+        }
+        
+        # Open Review Tab
+        if ($request->has('review')) {
+            $review = true;
+        } else {
+            $review = false;
+        }
+
+        return view('customer.pages.books.details', compact('book', 'random', 'userHasReviewed', 'averageRating', 'review'));
     }
 }
