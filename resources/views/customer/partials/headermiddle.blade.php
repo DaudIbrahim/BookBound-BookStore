@@ -1,54 +1,58 @@
 <div class="header-middle"><!--header-middle-->
     <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
+        <div class="row" style="border-bottom: none">
+            
+            <div class="col-sm-3">
+                
                 <div class="logo pull-left">
-                    <a href="index.html"><img src="{{ asset('assets/customer') }}/assets/images/home/logo.png" alt="" /></a>
+                    
+                    <a href="{{ route('books.index') }}">
+                        <img src="{{ asset('assets/customer') }}/assets/images/home/logo.png" alt="" style="width: 200px" />
+                    </a>
                 </div>
-                <div class="btn-group pull-right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-                            USA
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Canada</a></li>
-                            <li><a href="#">UK</a></li>
-                        </ul>
-                    </div>
 
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-                            DOLLAR
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Canadian Dollar</a></li>
-                            <li><a href="#">Pound</a></li>
-                        </ul>
-                    </div>
-                </div>
+                
+                
+                
             </div>
-            <div class="col-sm-8">
+
+            <div class="col-sm-9">
+
+                <div class="pull-left">
+                    <form method="GET" action="{{ route('books.index') }}" class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input id="main-search" name="search" type="text" class="form-control" placeholder="Search" value="{{ old('search') ?? ($append['search'] ?? '')  }}">
+                            </div>
+                            <button type="submit" class="btn btn-default">
+                                <i class="fa fa-search"></i>
+                            </button>
+                    </form>
+                </div>
+
+
                 <div class="shop-menu pull-right">
                     <ul class="nav navbar-nav">
 
-                        <li>
-                            @auth
-                                @if (Auth::user()->is_admin)
-                                    <a href="{{ route('admin.home') }}">
-                                        <i class="fa fa-user"></i> {{ Auth::user()->name }} Panel
-                                    </a>
-                                @else
-                                    <a href="{{ '#' }}">
-                                        <i class="fa fa-user"></i> {{ Auth::user()->name }}
-                                    </a>
-                                @endif
-                            @endauth
-                        </li>
-                        {{-- <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-                        <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li> --}}
 
+                        {{-- Home Button --}}
+                        <li>
+                            <a href="{{ route('books.index') }}">
+                                <i class="fa fa-home" aria-hidden="false"></i> Home
+                            </a>
+                        </li>
+
+                        {{-- My Orders --}}
+                        @auth
+                            @if (!Auth::user()->is_admin)
+                                <li>
+                                    <a href="{{ route('orders.index') }}">
+                                        <i class="fa fa-archive" aria-hidden="false"></i> My Orders
+                                    </a>
+                                </li>    
+                            @endif
+                        @endauth
+
+                        {{-- Cart --}}
                         <li>
                             <a href="{{ route('cart.index') }}" class="{{ route::is('cart.index') ? 'active' : ''}}">
                                 <i class="fa fa-shopping-cart"></i> Cart
@@ -57,35 +61,22 @@
                                 </span>
                             </a>
                         </li>
-                        
-                        @guest
-                            <li><a href="{{ route('register') }}"><i class="fa fa-lock"></i> {{ __('Register') }}</a></li>
-                            <li><a href="{{ route('login') }}"><i class="fa fa-lock"></i> {{ __('Login') }}</a></li>
-                        @endguest
-                        
-                        @auth
-                            <li>
-                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="fa fa-sign-out fa-fw"></i> Logout
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </li>
-                        @endauth
+
+                        {{-- Proceed --}}
+                        @if (route::is('cart.index'))
+                            @if (Cart::count() > 0)
+                                <li>
+                                    <a href="#" onclick="event.preventDefault(); extraScroll('do_action')">
+                                        <i class="fa fa-credit-card" aria-hidden="false"></i> Proceed
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+
                     </ul>
                 </div>
             </div>
+            
         </div>
-
-        {{-- @auth
-            @if (Auth::user()->is_admin)
-                <div class="row">
-                    <div class="alert alert-info">
-                        <strong>{{ 'Admin Logged In.' }}</strong>
-                    </div>
-                </div>
-            @endif
-        @endauth --}}
     </div>
 </div><!--/header-middle-->

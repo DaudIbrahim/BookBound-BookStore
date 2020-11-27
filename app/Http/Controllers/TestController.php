@@ -16,6 +16,7 @@ use App\Stock;
 use App\City;
 use App\Coupon;
 use App\Status;
+use App\Order;
 
 use Scriptotek\GoogleBooks\GoogleBooks;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -250,7 +251,40 @@ class TestController extends Controller
         // (new Status(["title" => "Completed"]))->save();
         // return Status::get();
 
-        return Auth::user()->email;
+        /**
+         * Test Database Fltering
+         */
+        
+       /**
+        * Unset for http_build_query
+        * ReferenceWeb - https://stackoverflow.com/questions/11026799/remove-blacklist-keys-from-array-in-php
+        */
+        // $data = array(
+        //     'blue'   => 43,
+        //     'red'    => 87,
+        //     'purple' => 130,
+        //     'green'  => 12,
+        //     'yellow' => 31
+        // );
+        
+        // //and this array of keys to remove
+        // $bad_keys = array(
+        //     'purple',
+        //     'yellow'
+        // );
+        
+        // $out = array_diff_key($data,array_flip($bad_keys));
+        // return $out;
+    
+
+        /**
+         * Bug Solved Categories/Subcategories returning wrong Author
+         */
+        $author = Author::whereIn('id', [3, 5, 8])->orderBy('title')->get();
+        return($author);
+
+
+        // -----
         return '- TEST -';
     }
 

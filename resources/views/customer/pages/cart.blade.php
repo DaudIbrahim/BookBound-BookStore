@@ -27,9 +27,9 @@
         </div>
     @endif
 
-    <div class="text-center" style="margin-bottom: 10%">
-        <h1 class="title">Your Cart is Empty!</h1>
-        <p class="sub-title">Looks like you haven't made order yet.</p>
+    <div align="center">
+        <h1>Your Cart is Empty!</h1>
+        <p class="sub-title">Looks like you haven't add anything yet.</p>
         <a href="{{ route('books.index') }}" class="btn">Continue To Shopping</a>
     </div>
 @endif
@@ -139,7 +139,7 @@
 
                 @auth
                     @if (Auth::user()->is_admin)
-                        <div class="alert alert-warning">
+                        <div class="alert alert-danger">
                             <strong>
                                 Administrator restricted to checkout.
                             </strong>

@@ -5,7 +5,9 @@
 @endsection
 
 @section('content')
- <div class="row">
+
+{{-- Showing Book Information --}}
+<div class="row">
    <div class="col-lg-12">
 
       <div class="card">
@@ -15,9 +17,9 @@
                   <strong>{{ session('message') }}</strong>
                </div>
             @endif
-            <a href="{{ route('admin.books.index') }}">
-               <span class="material-icons">arrow_back</span>
-            </a>
+            <p>
+               Book Details
+            </p>
          </div>
 
          <div class="card-content">
@@ -162,20 +164,130 @@
          </div>
       </div>
    </div>
-<div>
+</div>
 
 {{-- Errors For My Concerns --}}
 <div class="row">
-   @if ($errors->any())
-   <div class="alert alert-danger">
-         <ul>
-            @foreach ($errors->all() as $error)
-               <li>{{ $error }}</li>
-            @endforeach
-         </ul>
-   </div>
-  @endif
+   @if ($errors->any())  
+      <div class="alert alert-danger">
+            <ul>
+               @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+               @endforeach
+            </ul>
+      </div>
+   @endif
 </div>
+
+{{-- newStock() --}}
+<div class="row">
+   <div class="card">
+      <div class="card-action">
+         <p>
+            {{ $book->title }} (Condition: New) Orders
+         </p>
+      </div>
+      <div class="card-content">
+         <div class="table-responsive">
+            <table class="table  table-bordered table-hover" id="dataTables-example">
+               <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Status</th>
+                        <th>Customer</th>
+                        <th>Area</th>
+                        <th>Total</th>
+                        <th>Placed At</th>
+                        <th>Updated At</th>
+                        <th>Details</th>
+                        <th>Process Order</th>
+                     </tr>
+               </thead>
+               <tbody>
+                  @foreach ($book->newStock()->orders as $order)
+                     {{-- <tr class="{{ $colors[$order->status_id] }}"> --}}
+                     <tr>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->id }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->status->title }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->user->name }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->area->title }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">Tk. {{ $order->total }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->updated_at }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->updated_at }}</td>
+                        <td>
+                           <a target="_blank" rel="noopener noreferrer" href="{{ route('admin.orders.show', $order->id) }}">
+                              Details
+                           </a>
+                        </td>
+                        <td>
+                           <a target="_blank" rel="noopener noreferrer" href="{{ route('admin.orders.edit', $order->id) }}">
+                              Process Order
+                           </a>
+                        </td>
+                     </tr>
+                  @endforeach
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+</div>
+
+{{-- usedStock() --}}
+<div class="row">
+   <div class="card">
+      <div class="card-action">
+         <p>
+            {{ $book->title }} (Condition: Used) Orders
+         </p>
+      </div>
+      <div class="card-content">
+         <div class="table-responsive">
+            <table class="table  table-bordered table-hover" id="dataTables-example">
+               <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Status</th>
+                        <th>Customer</th>
+                        <th>Area</th>
+                        <th>Total</th>
+                        <th>Placed At</th>
+                        <th>Updated At</th>
+                        <th>Details</th>
+                        <th>Process Order</th>
+                     </tr>
+               </thead>
+               <tbody>
+                  @foreach ($book->usedStock()->orders as $order)
+                     {{-- <tr class="{{ $colors[$order->status_id] }}"> --}}
+                     <tr>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->id }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->status->title }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->user->name }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->area->title }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">Tk. {{ $order->total }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->updated_at }}</td>
+                        <td class="{{ $colors[$order->status_id] }}">{{ $order->updated_at }}</td>
+                        <td>
+                           <a target="_blank" rel="noopener noreferrer" href="{{ route('admin.orders.show', $order->id) }}">
+                              Details
+                           </a>
+                        </td>
+                        <td>
+                           <a target="_blank" rel="noopener noreferrer" href="{{ route('admin.orders.edit', $order->id) }}">
+                              Process Order
+                           </a>
+                        </td>
+                     </tr>
+                  @endforeach
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+</div>
+
+
 @endsection
 
 @section('javascript')

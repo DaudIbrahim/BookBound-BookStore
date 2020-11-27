@@ -13,6 +13,17 @@ class Stock extends Model
      */
     protected $fillable = ['book_id', 'is_used', 'price', 'price'];
 
+    /**
+     * The relationships that should always be loaded.
+     * 
+     * Throws Error (Possibly Recursive Error )
+     * As stock and orders are eager loaded by the model
+     * Not Eager Loading Stock in the Model
+     *
+     * @var array
+     */
+    # protected $with = ['orders'];
+
     public function book()
     {
         return $this->belongsTo(Book::class);
@@ -24,5 +35,5 @@ class Stock extends Model
         return $this->belongsToMany(Order::class)
             ->withTimestamps()
             ->withPivot('quantity', 'price');
-}
+    }
 }

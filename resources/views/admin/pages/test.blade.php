@@ -28,7 +28,7 @@
 @section('javascript')
   <script>
       (function() {
-
+         console.log('READY');
       })();
   </script>
 @endsection

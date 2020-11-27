@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    /**
+     * https://laravel.com/docs/5.8/eloquent-relationships#eager-loading
+     * 
+     * Nested Eager Loading 'stocks.book'
+     * 
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['stocks.book', 'status', 'user', 'area', 'coupon'];
+
     // Many to Many (order_stock)
     public function stocks()
     {

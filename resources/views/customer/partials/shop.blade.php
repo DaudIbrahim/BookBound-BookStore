@@ -1,6 +1,27 @@
+{{-- THE Centrepiece --}}
+
 <div class="features_items">
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!--features_items-->
-    <h2 class="title text-center">Total Books {{ $books->count()}}</h2>
+    @if ($books->isEmpty())
+        <div align="center "class="content-404">
+            {{-- https://www.wayfair.co.uk/ --}}
+            <p>We're Sorry! We can't seem to find any books that match your criteria</p>
+            <strong><a href="{{ route('books.index') }}">Try Again</a></strong>
+        </div>
+    @else
+        <h2 class="title text-center">Total Books {{ $books->count()}}</h2>
+    @endif
 
     @foreach ($books as $book)
         <div class="col-sm-4">
@@ -15,19 +36,25 @@
                                 {{ $book->title }}
                             </a>
                         </h2>
-                        <p>{{ $book->author->title }}</p>
+                        <p>
+                            <a href="{{ route('books.index', ['author' => $book->author->id]) }}">
+                                {{ $book->author->title }}
+                            </a>
+                        </p>
                     </div>
                 </div>
-                <div class="choose">
+                <div class="choose" style="background-color: ghostwhite;">
                     <ul class="nav nav-pills nav-justified">
                         <li>
-                            <a href="{{ route('books.details', ['book' => $book->id]) }}">
-                                <i class="fa fa-money"></i>New TK. {{ $book->newStock()->price }}
+                            <a href="{{ route('books.details', ['book' => $book->id]) }}" style="color: black; font-size:14px">
+                                {{-- <i class="fa fa-money"></i> --}}
+                                New TK. {{ $book->newStock()->price }}
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('books.details', ['book' => $book->id]) }}">
-                                <i class="fa fa-money"></i>Used TK. {{ $book->usedStock()->price }}
+                            <a href="{{ route('books.details', ['book' => $book->id]) }}" style="color: black; font-size:14px">
+                                {{-- <i class="fa fa-money"></i> --}}
+                                Used TK. {{ $book->usedStock()->price }}
                             </a>
                         </li>
                     </ul>
@@ -42,4 +69,11 @@
         <li><a href="">3</a></li>
         <li><a href="">»</a></li>
     </ul> --}}
+</div>
+
+<div align="center">
+    
+    {{ $books->appends($append)->links() }}
+
+    {{-- {{ $books->links()  }} --}}
 </div>

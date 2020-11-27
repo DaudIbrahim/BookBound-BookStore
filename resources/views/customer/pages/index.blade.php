@@ -17,5 +17,10 @@
 @endsection
 
 @section('javascript')
-    
+    <script>
+        var append = @json($append);
+        if (document.getElementById('author-' + append.author)) {
+            document.getElementById('author-' + append.author).focus();
+        }
+    </script>
 @endsection

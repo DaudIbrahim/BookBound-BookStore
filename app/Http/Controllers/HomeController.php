@@ -24,9 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // This is Good Candidate for index page
-        $books = Book::get();
-        // $books = Book::inRandomOrder()->get();
-        return view('customer.pages.test', compact('books'));
+        $books = Book::inRandomOrder()->get();
+        return view('customer.pages.index', compact('books'));
     }
 }

@@ -2536,3 +2536,16 @@ h2.title {
 #specification table td:nth-child(1){
   background-color: #f1f2f4;
 }
+
+@media only screen and (min-width: 1200px) {
+  /* styles for browsers larger than 1200px; */
+  #main-search {
+    width: 350px;;
+  }
+}
+
+#daud-wrapper {
+  /* ReferenceWeb - https://stackoverflow.com/a/26090114/7031530 */
+  /* 126px + 40px = 166px */
+  min-height: calc(99vh - 166px );
+}

@@ -5,9 +5,9 @@
         
     @if (route::is('checkout.index'))
         <title>Stripe</title>
+        <script src="https://js.stripe.com/v3/"></script>
+        <link href="{{ asset('css/stripe.css') }}" rel="stylesheet">
     @endif
-    <script src="https://js.stripe.com/v3/"></script>
-    <link href="{{ asset('css/stripe.css') }}" rel="stylesheet">
 
     <title>Book Bound</title>
     <link href="{{ asset('assets/customer') }}/assets/css/bootstrap.min.css" rel="stylesheet">

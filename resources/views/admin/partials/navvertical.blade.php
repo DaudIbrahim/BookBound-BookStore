@@ -5,9 +5,28 @@
          {{-- ReferenceWeb - https://laraveldaily.com/how-to-check-current-url-or-route/ --}}
 
          <li>
-            <a target="_blank" rel="noopener noreferrer" href="{{ route('home') }}">
+            <a target="_blank" rel="noopener noreferrer" href="{{ route('books.index') }}">
                <i class="fa fa-fw fa-shopping-cart"></i> Shop
             </a>
+         </li>
+
+         {{-- Orders --}}
+         <li>
+            <a href="" class="waves-effect waves-dark">
+               <i class="glyphicon glyphicon-tasks"></i>Orders<span class="fa arrow"></span>
+            </a>
+            <ul class="nav nav-second-level {{ route::is('admin.orders.*') ? "collapse in" : "" }}">
+               <li>
+                  <a href="{{ route('admin.orders.index') }}" class="{{ route::is('admin.categories.index') ? "active-menu" : ""}}">
+                     <i class="fa fa-file" aria-hidden="true"></i>All Orders
+                  </a>
+               </li>
+               {{-- <li>
+                  <a href="{{ route('admin.categories.create') }}" class="{{ route::is('admin.categories.create') ? "active-menu" : ""}}">
+                     <i class="fa fa-plus" aria-hidden="true"></i>Create New Category
+                  </a>
+               </li> --}}
+            </ul>
          </li>
 
          {{-- Categories --}}

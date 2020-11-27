@@ -22,9 +22,15 @@ In BookBound throwing Exception when a Book has more than one record of new or u
 **[How to handle money and currency in web applications](https://culttt.com/2014/05/28/handle-money-currency-web-applications/)** 
 Keep discounts separate
 
-**[Powells (Rage: Same Title Book)](https://www.powells.com/searchresults?keyword=rage)**
+**[Powells (Filtering)](https://www.powells.com/category)**
 
 Expired Card - 4000 0000 0000 0069
 
-**Problem-Set;** Reduce Stock, Proceed Payment; Proceed Payment, Reduce Check; Concurrency?
+**Problem-Set;** Reduce Stock, Proceed Payment; Proceed Payment, Reduce Check; ?
+
+Eager Loading Same Relationship Order & Stock
+Throws some Processing Error (Not Sure)
+Stock - Lazy Loading deafault as Laravel
+Order - Eager Nested Relationship Loading
+-Amm Abstraction-
 

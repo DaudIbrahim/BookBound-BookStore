@@ -245,7 +245,8 @@ class AdminBookController extends Controller
     public function show($id)
     {
         $book = Book::findOrFail($id);
-        return view('admin.pages.books.show', compact('book'));
+        $colors = ['zero', 'info', 'warning', 'success'];
+        return view('admin.pages.books.show', compact('book', 'colors'));
     }
 
     /**

@@ -1,3 +1,4 @@
+
 <?php
 
 /*
@@ -22,11 +23,12 @@ Auth::routes([
     'verify' => false,
 ]);
 
-/**
- * Guest Routes. (Routes for All).
- */
-Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index')->name('home');
+// At logout | Get Request | Throws Error | Now Redirect
+Route::get('/logout', function() {return redirect()->route('home');} );
+
+// Home (Index)
+Route::get('/', 'BookController@index');
+Route::get('/home', 'BookController@index')->name('home');
 
 // Books
 Route::get('/books', 'BookController@index')->name('books.index');
@@ -42,12 +44,17 @@ Route::delete('/cart/{row}', 'CartController@destroy')->name('cart.destroy');
 Route::get('/coupon/apply', 'CouponController@apply')->name('coupon.apply');
 Route::get('/coupon/remove', 'CouponController@remove')->name('coupon.remove');
 
+/**
+ * Customer Logged In Routes
+ * Requires Customers to be logged in 
+ */
 // Checkout
 Route::get('/checkout', 'CustomerCheckoutController@index')->name('checkout.index');
 Route::post('/checkout', 'CustomerCheckoutController@store')->name('checkout.store');
 
-// Thankyou
-// Route::get('/thankyou', 'ConfirmationController@index')->name('confirmation.index');
+// Orders
+Route::get('/orders', 'CustomerOrderController@index')->name('orders.index');
+Route::get('/orders/{order}', 'CustomerOrderController@show')->name('orders.show');
 
 /**
  * Admin Routes.
@@ -100,6 +107,23 @@ Route::group(['prefix' => 'administrator', "as" => "admin."], function () {
     Route::get('/coupons/fetch/code', 'AdminCouponController@code')->name('coupons.code');
     Route::post('/coupons', 'AdminCouponController@store')->name('coupons.store');
     Route::get('/coupons/{coupons}', 'AdminCouponController@show')->name('coupons.show');
+
+    /**
+     * 1 - index()
+     * 2 - create()
+     * 3 - store()
+     * 4 - show()
+     * 5 - edit()
+     * 6 - update()
+     * 7 - destroy()
+     */
+    // Orders
+    Route::get('/orders','AdminOrderController@index')->name('orders.index');
+    Route::get('/orders/{order}','AdminOrderController@show')->name('orders.show');
+    Route::get('/orders/{order}/edit','AdminOrderController@edit')->name('orders.edit');
+    Route::put('/orders/{order}','AdminOrderController@update')->name('orders.update');
+
+    // Route::get('/orders/stock/{stock}', 'AdminOrderController@stock')->name('orders.stock'); #Unused
 
 });
 
