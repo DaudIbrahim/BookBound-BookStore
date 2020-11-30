@@ -159,9 +159,8 @@ class CustomerCheckoutController extends Controller
 
             $order_id = $this->processOrder($request->all(), $charge['id']);
             
-            return redirect()->route('cart.index')->with([
-                'order_id' => $order_id,
-                'order_success' => 'Thank you! Your payment has been successfully accepted!'
+            return redirect()->route('orders.show', $order_id)->with([
+                'order_success' => 'Thank you! Your payment has been Successfully Accepted! & Your order has been Placed'
             ]);
             
         } catch (CardErrorException $e) {

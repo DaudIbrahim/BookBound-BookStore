@@ -6,7 +6,7 @@
 @if (Cart::count() == 0)
 
     {{-- TESTING --}}
-    @if (session('order_id'))
+    {{-- @if (session('order_id'))
         <div class="container">
             <div class="alert alert-success">
                 <strong>{{ session('order_success') }}</strong>
@@ -15,7 +15,7 @@
                 Order ID - <strong>{{ session('order_id') }}</strong>
             </div>
         </div>
-    @endif
+    @endif --}}
     {{-- TESTING --}}
 
 

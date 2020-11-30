@@ -5,10 +5,19 @@
 	<div class="bg">
 
 		<div class="row">
+
+         @if (session('order_success'))
+         <div class="container">
+            <div class="alert alert-success">
+               <strong>{{ session('order_success') }}</strong>
+            </div>
+         </div>
+         @endif
+
 			<div class="col-sm-12">
-                <div class="contact-form">
-                    <h2 class="title text-center">Order Details</h2>
-                </div>
+            <div class="contact-form">
+               <h2 class="title text-center">Order Details</h2>
+            </div>
         </div>
 
         <div class="row">
@@ -17,6 +26,7 @@
 
             {{-- Payment Summary --}}
             <div class="col-sm-12 padding-right">
+
                <table class="table">
                    <h4>Details</h4>
                    <tbody>

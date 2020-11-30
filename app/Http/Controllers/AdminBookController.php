@@ -190,9 +190,9 @@ class AdminBookController extends Controller
             'category' => 'required|exists:categories,id',
             'subcategory' => 'required|exists:subcategories,id',
             'new_price' => 'numeric|required|min:100|max:9999',
-            'new_quantity' => 'numeric|required|min:10|max:50',
+            'new_quantity' => 'numeric|required|min:5|max:50',
             'used_price' => 'numeric|required|min:100|max:9999',
-            'used_quantity' => 'numeric|required|min:10|max:50',
+            'used_quantity' => 'numeric|required|min:5|max:50',
         ]);
 
         $google_book = session()->get('google_book');
